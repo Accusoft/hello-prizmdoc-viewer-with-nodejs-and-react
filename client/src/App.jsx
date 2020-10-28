@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import ErrorBanner from './ErrorBanner';
 import PrizmDocViewerWrapper from './PrizmDocViewerWrapper';
+import {Col, Grid, Row, Tab, Tabs} from 'react-bootstrap';
 
 function App() {
   const [viewingSessionId, setViewingSessionId] = useState(null);
@@ -39,11 +40,28 @@ function App() {
 
       { !error &&
         <>
-          <PrizmDocViewerWrapper
-            viewingSessionId={viewingSessionId} // Use the viewingSessionId as input to construct the viewer.
-            style={{width: '100%', height: '600px'}} // Set the style of the container element which will become the viewer. The width and height will affect how much space the viewer will occupy.
-            onViewerReady={setViewerControl} // Once the viewer is ready, update our component state to store a reference to the viewerControl so we can programmatically interact with it (see page navigation example below).
-          />
+          <Tabs defaultActiveKey="first">
+            <Tab eventKey="first" title="First">
+             <Grid>
+               <Row>
+                 <Col xs={12} md={8}><p>First Tab</p></Col>
+               </Row>
+              </Grid>
+            </Tab>
+            <Tab eventKey="viewer" title="Viewer">
+              <Grid>
+                <Row>
+                  <Col xs={12} md={8}>
+                    <PrizmDocViewerWrapper
+                      viewingSessionId={viewingSessionId} // Use the viewingSessionId as input to construct the viewer.
+                      style={{width: '100%', height: '600px'}} // Set the style of the container element which will become the viewer. The width and height will affect how much space the viewer will occupy.
+                      onViewerReady={setViewerControl} // Once the viewer is ready, update our component state to store a reference to the viewerControl so we can programmatically interact with it (see page navigation example below).
+                    />
+                  </Col>
+                </Row>
+              </Grid>
+            </Tab>
+          </Tabs>
 
           <div className="clientApiUsage">
             <p>And, once it is ready, you can programmatically interact with the viewer from a parent react component. Here are some buttons which make viewer API calls to perform programmatic page navigation:</p>
