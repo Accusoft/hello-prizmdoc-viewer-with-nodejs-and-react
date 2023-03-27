@@ -45,13 +45,13 @@ Alternately, you can set or override any of these values via environment variabl
 
 ### Install dependencies
 
-```
+```bash
 npm install
 ```
 
 ## Running the Sample
 
-```
+```bash
 npm start
 ```
 
@@ -62,7 +62,7 @@ This will:
 
 You should see output like this:
 
-```
+```bash
 > node index.js
 
 [HPM] Proxy created: /pas-proxy  ->  https://api.accusoft.com/prizmdoc
@@ -73,7 +73,7 @@ Application running at http://localhost:8888
 
 When you open `http://localhost:8888` in a browser, you should see a viewer with an example document, like this:
 
-![](screenshot.png)
+![screenshot](screenshot.png)
 
 ## Developing Using the Client Dev Server
 
@@ -87,7 +87,7 @@ Here is how to use the client dev server:
 
 First, make sure the application server is running (if it is not already):
 
-```
+```bash
 cd server
 npm start
 ```
@@ -98,7 +98,7 @@ This will launch the example application server on `http://localhost:8888`.
 
 Given the application server is already running at `http://localhost:8888`, use a separate terminal window to start the client dev server like so:
 
-```
+```bash
 cd client
 npm start
 ```
@@ -111,7 +111,7 @@ The dev server (on port `3333`) is configured to proxy all unrecognized routes t
 
 To perform a production build of the client:
 
-```
+```bash
 cd client
 npm run build
 ```
