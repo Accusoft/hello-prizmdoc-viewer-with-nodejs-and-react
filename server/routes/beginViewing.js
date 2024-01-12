@@ -5,6 +5,7 @@ const fs = require('fs');
 const promisify = require('util').promisify;
 const readFile = promisify(fs.readFile);
 const pas = require('../pas/pasRequest');
+const config = require('../config/loadConfig')
 
 // This route will be called by the client whenever it needs to view a document.
 // This route will contact PAS (part of the PrizmDoc Viewer backend) to create a
@@ -22,6 +23,11 @@ const pas = require('../pas/pasRequest');
 // source document.
 router.post('/beginViewing', async (req, res /*, next*/) => {
   let prizmdocRes;
+  let clientFileFormats = [];
+
+  if (config.enableClientSideViewing) {
+    clientFileFormats = ['pdf'];
+  };
 
   const document = req.query.document;
 
@@ -31,13 +37,15 @@ router.post('/beginViewing', async (req, res /*, next*/) => {
       source: {
         type: 'upload',
         displayName: document
-      }
+      },
+      allowedClientFileFormats: clientFileFormats
     }
   });
   const viewingSessionId = prizmdocRes.body.viewingSessionId;
 
   // 2. Send the new viewingSessionId to the client so that it can begin rendering the viewer.
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Security-Policy', 'script-src \'self\'; worker-src blob:');
   res.send(JSON.stringify({ viewingSessionId }));
   res.end();
 
@@ -45,7 +53,7 @@ router.post('/beginViewing', async (req, res /*, next*/) => {
   //    converted to SVG. The viewer will request this content and receive it
   //    automatically once it is ready.
   prizmdocRes = await pas.put(`/ViewingSession/u${viewingSessionId}/SourceFile`, {
-    body: await(readFileFromDocumentsDirectory(document))
+    body: await (readFileFromDocumentsDirectory(document))
   });
 });
 

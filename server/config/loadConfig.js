@@ -6,6 +6,7 @@ const configFile = JSON5.parse(fs.readFileSync(configFilePath));
 const config = {
   apiKey: process.env.API_KEY || configFile.apiKey,
   pasBaseUrl: process.env.PAS_BASE_URL || configFile.pasBaseUrl,
-  pasSecretKey: process.env.PAS_SECRET_KEY || configFile.pasSecretKey
+  pasSecretKey: process.env.PAS_SECRET_KEY || configFile.pasSecretKey,
+  enableClientSideViewing: process.env.ENABLE_CLIENT_SIDE_VIEWING || configFile.enableClientSideViewing
 };
 module.exports = config;
